@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">NightCard</string>
+    <string name="title_section1">Clientes</string>
+    <string name="title_section2">Cervezas</string>
+    <string name="title_section3">Tragos</string>
+    <string name="action_settings">Settings</string>
+
+</resources>

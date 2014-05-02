@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/NightCard.iml" filepath="$PROJECT_DIR$/NightCard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/NightCard/NightCard-NightCard.iml" filepath="$PROJECT_DIR$/NightCard/NightCard-NightCard.iml" />
+    </modules>
+  </component>
+</project>
+
