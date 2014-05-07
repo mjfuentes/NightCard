@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -45,8 +46,26 @@ public class ListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        RelativeLayout layout = (RelativeLayout) this.inflater.inflate(R.layout.drink_list_item,this.container);
+        RelativeLayout layout = (RelativeLayout) this.inflater.inflate(R.layout.drink_list_item,null);
         TextView title = (TextView) layout.findViewById(R.id.title);
+        final TextView amount = (TextView) layout.findViewById(R.id.selectedAmount);
+        Button more = (Button) layout.findViewById(R.id.buttonMore);
+        more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                amount.setText(String.valueOf(Integer.parseInt(amount.getText().toString()) + 1));
+            }
+        });
+        Button less = (Button) layout.findViewById(R.id.buttonLess);
+        less.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int quantity = Integer.parseInt(amount.getText().toString());
+                if (quantity > 0) {
+                    amount.setText(String.valueOf(quantity - 1));
+                }
+            }
+        });
         title.setText(tragos.get(i).getName());
         TextView description = (TextView) layout.findViewById(R.id.description);
         description.setText(tragos.get(i).getDescription());

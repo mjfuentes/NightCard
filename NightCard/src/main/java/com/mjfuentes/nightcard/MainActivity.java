@@ -1,5 +1,6 @@
 package com.mjfuentes.nightcard;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -39,8 +40,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
      */
     ViewPager mViewPager;
 
-    private List<Trago> cervezas;
-    private List<Trago> tragos;
+    private List<Trago> cervezas = new ArrayList<Trago>();
+    private List<Trago> tragos = new ArrayList<Trago>();
 
 
     @Override
