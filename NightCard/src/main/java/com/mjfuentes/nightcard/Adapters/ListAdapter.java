@@ -45,24 +45,27 @@ public class ListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         RelativeLayout layout = (RelativeLayout) this.inflater.inflate(R.layout.drink_list_item,null);
         TextView title = (TextView) layout.findViewById(R.id.title);
-        final TextView amount = (TextView) layout.findViewById(R.id.selectedAmount);
+        final TextView amountText = (TextView) layout.findViewById(R.id.selectedAmount);
         Button more = (Button) layout.findViewById(R.id.buttonMore);
         more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                amount.setText(String.valueOf(Integer.parseInt(amount.getText().toString()) + 1));
+                int amount = tragos.get(i).getPrice();
+                tragos.get(i).setPrice(amount++);
+                amountText.setText(String.valueOf(amount++));
             }
         });
         Button less = (Button) layout.findViewById(R.id.buttonLess);
         less.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int quantity = Integer.parseInt(amount.getText().toString());
-                if (quantity > 0) {
-                    amount.setText(String.valueOf(quantity - 1));
+                int amount = tragos.get(i).getPrice();
+                if (amount > 0) {
+                    tragos.get(i).setPrice(amount--);
+                    amountText.setText(String.valueOf(amount--));
                 }
             }
         });
