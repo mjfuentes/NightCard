@@ -193,6 +193,12 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_cliente, container, false);
+            TextView saldoCliente = (TextView) rootView.findViewById(R.id.saldoCliente);
+            saldoCliente.setText(String.valueOf(DrinksController.getUserAmount()));
+            TextView gastoCliente = (TextView) rootView.findViewById(R.id.gastoCliente);
+            saldoCliente.setText(String.valueOf(DrinksController.getTotalAmount()));
+            TextView finalCliente = (TextView) rootView.findViewById(R.id.finalCliente);
+            saldoCliente.setText(String.valueOf(DrinksController.getUserAmount() - DrinksController.getTotalAmount()));
             return rootView;
         }
     }
@@ -214,6 +220,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_alcohol, container, false);
+            TextView saldo = (TextView) rootView.findViewById(R.id.saldoCliente);
+            saldo.setText("Saldo: " + String.valueOf(DrinksController.getUserAmount() - DrinksController.getTotalAmount()));
             adapter = new BeersAdapter(inflater,container);
             ListView list = (ListView) rootView.findViewById(R.id.drinks);
             list.setAdapter(adapter);
@@ -237,6 +245,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_alcohol, container, false);
+            TextView saldo = (TextView) rootView.findViewById(R.id.saldoCliente);
+            saldo.setText("Saldo: " + String.valueOf(DrinksController.getUserAmount() - DrinksController.getTotalAmount()));
             adapter = new DrinksAdapter(inflater,container);
             ListView list = (ListView) rootView.findViewById(R.id.drinks);
             list.setAdapter(adapter);
