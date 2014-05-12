@@ -15,6 +15,7 @@ public class Trago {
         this.setPrice(price);
         this.setName(name);
         this.setStock(stock);
+        this.setSelected(0);
     }
 
     public Trago(){}

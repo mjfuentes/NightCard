@@ -1,5 +1,6 @@
 package com.mjfuentes.nightcard.Adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mjfuentes.nightcard.Controller.DrinksController;
+import com.mjfuentes.nightcard.MainActivity;
 import com.mjfuentes.nightcard.Model.Trago;
 import com.mjfuentes.nightcard.R;
 
@@ -21,10 +23,12 @@ public class DrinksAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
     private ViewGroup container;
+    private Context context;
 
-    public DrinksAdapter(LayoutInflater inflater, ViewGroup container) {
+    public DrinksAdapter(LayoutInflater inflater, ViewGroup container, Context context) {
         this.container = container;
         this.inflater = inflater;
+        this.context = context;
     }
 
     @Override
@@ -52,6 +56,7 @@ public class DrinksAdapter extends BaseAdapter {
             public void onClick(View view) {
                 Trago selected = DrinksController.getTragos().get(i);
                 DrinksController.newDrinkSelected(selected);
+                ((MainActivity) context).updateFragments();
                 notifyDataSetChanged();
             }
         });
@@ -68,7 +73,7 @@ public class DrinksAdapter extends BaseAdapter {
         TextView description = (TextView) layout.findViewById(R.id.description);
         description.setText(DrinksController.getTragos().get(i).getDescription());
         TextView quantity = (TextView) layout.findViewById(R.id.selectedAmount);
-        quantity.setText(String.valueOf(DrinksController.getTragos().get(i).getStock()));
+        quantity.setText(String.valueOf(DrinksController.getTragos().get(i).getSelected()));
         return layout;
     }
 }

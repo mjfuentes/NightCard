@@ -59,6 +59,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setOffscreenPageLimit(0);
 
         // When swiping between different sections, select the corresponding
         // tab. We can also use ActionBar.Tab#select() to do this if we have
@@ -81,9 +82,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+    }
 
-        TextView saldo = (TextView) this.findViewById(R.id.saldoCliente);
-        saldo.setText("Saldo: " + String.valueOf(DrinksController.getUserAmount() - DrinksController.getTotalAmount()));
+    public void updateFragments(){
     }
 
     private void fillDrinks(){
@@ -177,6 +178,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
     }
 
     public static class ClienteFragment extends Fragment {
+        private TextView saldoCliente;
+        private TextView gastoCliente;
+        private TextView finalCliente;
 
         public static ClienteFragment newInstance() {
             ClienteFragment fragment = new ClienteFragment();
@@ -193,18 +197,26 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_cliente, container, false);
-            TextView saldoCliente = (TextView) rootView.findViewById(R.id.saldoCliente);
-            saldoCliente.setText(String.valueOf(DrinksController.getUserAmount()));
-            TextView gastoCliente = (TextView) rootView.findViewById(R.id.gastoCliente);
-            saldoCliente.setText(String.valueOf(DrinksController.getTotalAmount()));
-            TextView finalCliente = (TextView) rootView.findViewById(R.id.finalCliente);
-            saldoCliente.setText(String.valueOf(DrinksController.getUserAmount() - DrinksController.getTotalAmount()));
+            saldoCliente = (TextView) rootView.findViewById(R.id.saldoCliente);
+            gastoCliente = (TextView) rootView.findViewById(R.id.gastoCliente);
+            finalCliente = (TextView) rootView.findViewById(R.id.finalCliente);
             return rootView;
         }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            saldoCliente.setText(String.valueOf(DrinksController.getUserAmount()));
+            gastoCliente.setText(String.valueOf(DrinksController.getTotalAmount()));
+            finalCliente.setText(String.valueOf(DrinksController.getUserAmount() - DrinksController.getTotalAmount()));
+        }
+
+
     }
 
-    public static class CervezasFragment extends Fragment {
 
+    public static class CervezasFragment extends Fragment {
+        private TextView saldo;
         private BeersAdapter adapter;
         public static CervezasFragment newInstance() {
             CervezasFragment fragment = new CervezasFragment();
@@ -220,17 +232,24 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_alcohol, container, false);
-            TextView saldo = (TextView) rootView.findViewById(R.id.saldoCliente);
-            saldo.setText("Saldo: " + String.valueOf(DrinksController.getUserAmount() - DrinksController.getTotalAmount()));
-            adapter = new BeersAdapter(inflater,container);
+            saldo = (TextView) rootView.findViewById(R.id.saldoCliente);
+            adapter = new BeersAdapter(inflater,container,this.getActivity());
             ListView list = (ListView) rootView.findViewById(R.id.drinks);
             list.setAdapter(adapter);
             return rootView;
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            adapter.notifyDataSetChanged();
+            saldo.setText("Saldo: " + String.valueOf(DrinksController.getUserAmount() - DrinksController.getTotalAmount()));
         }
     }
 
     public static class TragosFragment extends Fragment {
         private DrinksAdapter adapter;
+        private TextView saldo;
         public static TragosFragment newInstance() {
             TragosFragment fragment = new TragosFragment();
             Bundle args = new Bundle();
@@ -245,14 +264,20 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_alcohol, container, false);
-            TextView saldo = (TextView) rootView.findViewById(R.id.saldoCliente);
+            saldo = (TextView) rootView.findViewById(R.id.saldoCliente);
             saldo.setText("Saldo: " + String.valueOf(DrinksController.getUserAmount() - DrinksController.getTotalAmount()));
-            adapter = new DrinksAdapter(inflater,container);
+            adapter = new DrinksAdapter(inflater,container,this.getActivity());
             ListView list = (ListView) rootView.findViewById(R.id.drinks);
             list.setAdapter(adapter);
             return rootView;
         }
 
+        @Override
+        public void onResume() {
+            super.onResume();
+            adapter.notifyDataSetChanged();
+            saldo.setText("Saldo: " + String.valueOf(DrinksController.getUserAmount() - DrinksController.getTotalAmount()));
+        }
 
     }
 }

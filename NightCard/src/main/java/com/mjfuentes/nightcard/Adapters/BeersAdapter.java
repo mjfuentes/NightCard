@@ -1,5 +1,6 @@
 package com.mjfuentes.nightcard.Adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +22,11 @@ public class BeersAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
     private ViewGroup container;
-
-    public BeersAdapter(LayoutInflater inflater, ViewGroup container) {
+    private Context context;
+    public BeersAdapter(LayoutInflater inflater, ViewGroup container, Context context) {
         this.container = container;
         this.inflater = inflater;
+        this.context = context;
     }
 
     @Override
@@ -50,27 +52,26 @@ public class BeersAdapter extends BaseAdapter {
         more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int amount = DrinksController.getCervezas().get(i).getStock();
-                DrinksController.getCervezas().get(i).setStock(amount++);
+                Trago selected = DrinksController.getCervezas().get(i);
+                DrinksController.newDrinkSelected(selected);
                 notifyDataSetChanged();
+
             }
         });
         Button less = (Button) layout.findViewById(R.id.buttonLess);
         less.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int amount = DrinksController.getCervezas().get(i).getStock();
-                if (amount > 0) {
-                    DrinksController.getCervezas().get(i).setStock(amount--);
-                    notifyDataSetChanged();
-                }
+                Trago selected = DrinksController.getCervezas().get(i);
+                DrinksController.lessDrinkSelected(selected);
+                notifyDataSetChanged();
             }
         });
         title.setText(DrinksController.getCervezas().get(i).getName());
         TextView description = (TextView) layout.findViewById(R.id.description);
         description.setText(DrinksController.getCervezas().get(i).getDescription());
         TextView quantity = (TextView) layout.findViewById(R.id.selectedAmount);
-        quantity.setText(String.valueOf(DrinksController.getCervezas().get(i).getStock()));
+        quantity.setText(String.valueOf(DrinksController.getCervezas().get(i).getSelected()));
         return layout;
     }
 }

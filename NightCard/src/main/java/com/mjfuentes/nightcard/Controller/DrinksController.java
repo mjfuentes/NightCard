@@ -58,7 +58,7 @@ public class DrinksController {
     }
 
     public static void newDrinkSelected(Trago trago){
-        trago.setStock(trago.getStock() + 1);
+        trago.setSelected(trago.getSelected() + 1);
         if (!getSeleccionados().contains(trago)){
             DrinksController.getSeleccionados().add(trago);
         }
@@ -66,8 +66,8 @@ public class DrinksController {
     }
 
     public static void lessDrinkSelected(Trago trago){
-        if (trago.getStock()>0){
-            trago.setStock(trago.getStock()-1);
+        if (trago.getSelected()>0){
+            trago.setSelected(trago.getSelected()-1);
             if (trago.getStock() == 0){
                 getSeleccionados().remove(trago);
             }
