@@ -1,7 +1,5 @@
 package com.mjfuentes.nightcard;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -18,8 +16,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import com.mjfuentes.nightcard.Adapters.ListAdapter;
+import com.mjfuentes.nightcard.Adapters.BeersAdapter;
+import com.mjfuentes.nightcard.Adapters.DrinksAdapter;
+import com.mjfuentes.nightcard.Controller.DrinksController;
 import com.mjfuentes.nightcard.Model.Trago;
 
 
@@ -40,8 +41,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
      */
     ViewPager mViewPager;
 
-    private List<Trago> cervezas = new ArrayList<Trago>();
-    private List<Trago> tragos = new ArrayList<Trago>();
 
 
     @Override
@@ -82,17 +81,20 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+
+        TextView saldo = (TextView) this.findViewById(R.id.saldoCliente);
+        saldo.setText("Saldo: " + String.valueOf(DrinksController.getUserAmount() - DrinksController.getTotalAmount()));
     }
 
     private void fillDrinks(){
-        cervezas.add(new Trago(25,"Heineken",10));
-        cervezas.add(new Trago(30,"Stela Artois",10));
-        cervezas.add(new Trago(25,"Budweiser",10));
-        cervezas.add(new Trago(20,"Quilmes",10));
-        tragos.add(new Trago(20,"Fernet",10));
-        tragos.add(new Trago(15,"Tequila",10));
-        tragos.add(new Trago(25,"Vodka con Speed",10));
-        tragos.add(new Trago(25,"Whiscola",10));
+        DrinksController.getCervezas().add(new Trago(25, "Heineken", 10));
+        DrinksController.getCervezas().add(new Trago(30, "Stela Artois", 10));
+        DrinksController.getCervezas().add(new Trago(25, "Budweiser", 10));
+        DrinksController.getCervezas().add(new Trago(20, "Quilmes", 10));
+        DrinksController.getTragos().add(new Trago(20, "Fernet", 10));
+        DrinksController.getTragos().add(new Trago(15, "Tequila", 10));
+        DrinksController.getTragos().add(new Trago(25, "Vodka con Speed", 10));
+        DrinksController.getTragos().add(new Trago(25, "Whiscola", 10));
     }
 
     @Override
@@ -128,22 +130,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    }
-
-    public List<Trago> getCervezas() {
-        return cervezas;
-    }
-
-    public void setCervezas(List<Trago> cervezas) {
-        this.cervezas = cervezas;
-    }
-
-    public List<Trago> getTragos() {
-        return tragos;
-    }
-
-    public void setTragos(List<Trago> tragos) {
-        this.tragos = tragos;
     }
 
     /**
@@ -213,7 +199,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
     public static class CervezasFragment extends Fragment {
 
-        private ListAdapter adapter;
+        private BeersAdapter adapter;
         public static CervezasFragment newInstance() {
             CervezasFragment fragment = new CervezasFragment();
             Bundle args = new Bundle();
@@ -228,7 +214,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_alcohol, container, false);
-            adapter = new ListAdapter(inflater,container,((MainActivity)this.getActivity()).getCervezas());
+            adapter = new BeersAdapter(inflater,container);
             ListView list = (ListView) rootView.findViewById(R.id.drinks);
             list.setAdapter(adapter);
             return rootView;
@@ -236,7 +222,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
     }
 
     public static class TragosFragment extends Fragment {
-        private ListAdapter adapter;
+        private DrinksAdapter adapter;
         public static TragosFragment newInstance() {
             TragosFragment fragment = new TragosFragment();
             Bundle args = new Bundle();
@@ -251,7 +237,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_alcohol, container, false);
-            adapter = new ListAdapter(inflater,container, ((MainActivity)this.getActivity()).getTragos());
+            adapter = new DrinksAdapter(inflater,container);
             ListView list = (ListView) rootView.findViewById(R.id.drinks);
             list.setAdapter(adapter);
             return rootView;

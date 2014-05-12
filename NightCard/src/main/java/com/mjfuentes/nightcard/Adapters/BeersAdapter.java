@@ -1,6 +1,5 @@
 package com.mjfuentes.nightcard.Adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +8,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mjfuentes.nightcard.Controller.DrinksController;
 import com.mjfuentes.nightcard.Model.Trago;
 import com.mjfuentes.nightcard.R;
 
@@ -17,26 +17,24 @@ import java.util.List;
 /**
  * Created by matias on 02/05/14.
  */
-public class ListAdapter extends BaseAdapter {
+public class BeersAdapter extends BaseAdapter {
 
-    private List<Trago> tragos;
     private LayoutInflater inflater;
     private ViewGroup container;
 
-    public ListAdapter(LayoutInflater inflater, ViewGroup container, List<Trago> tragos) {
-        this.tragos = tragos;
+    public BeersAdapter(LayoutInflater inflater, ViewGroup container) {
         this.container = container;
         this.inflater = inflater;
     }
 
     @Override
     public int getCount() {
-        return tragos.size();
+        return DrinksController.getCervezas().size();
     }
 
     @Override
     public Object getItem(int i) {
-        return tragos.get(i);
+        return DrinksController.getCervezas().get(i);
     }
 
     @Override
@@ -45,38 +43,34 @@ public class ListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
         RelativeLayout layout = (RelativeLayout) this.inflater.inflate(R.layout.drink_list_item,null);
         TextView title = (TextView) layout.findViewById(R.id.title);
-        final TextView amount = (TextView) layout.findViewById(R.id.selectedAmount);
         Button more = (Button) layout.findViewById(R.id.buttonMore);
         more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                amount.setText(String.valueOf(Integer.parseInt(amount.getText().toString()) + 1));
+                int amount = DrinksController.getCervezas().get(i).getStock();
+                DrinksController.getCervezas().get(i).setStock(amount++);
+                notifyDataSetChanged();
             }
         });
         Button less = (Button) layout.findViewById(R.id.buttonLess);
         less.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int quantity = Integer.parseInt(amount.getText().toString());
-                if (quantity > 0) {
-                    amount.setText(String.valueOf(quantity - 1));
+                int amount = DrinksController.getCervezas().get(i).getStock();
+                if (amount > 0) {
+                    DrinksController.getCervezas().get(i).setStock(amount--);
+                    notifyDataSetChanged();
                 }
             }
         });
-        title.setText(tragos.get(i).getName());
+        title.setText(DrinksController.getCervezas().get(i).getName());
         TextView description = (TextView) layout.findViewById(R.id.description);
-        description.setText(tragos.get(i).getDescription());
+        description.setText(DrinksController.getCervezas().get(i).getDescription());
+        TextView quantity = (TextView) layout.findViewById(R.id.selectedAmount);
+        quantity.setText(String.valueOf(DrinksController.getCervezas().get(i).getStock()));
         return layout;
-    }
-
-    public List<Trago> getTragos() {
-        return tragos;
-    }
-
-    public void setTragos(List<Trago> tragos) {
-        this.tragos = tragos;
     }
 }
