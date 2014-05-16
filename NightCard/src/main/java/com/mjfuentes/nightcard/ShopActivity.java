@@ -26,7 +26,7 @@ import com.mjfuentes.nightcard.Model.BasicFragment;
 import com.mjfuentes.nightcard.Model.Trago;
 
 
-public class MainActivity extends Activity implements ActionBar.TabListener {
+public class ShopActivity extends Activity implements ActionBar.TabListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -54,6 +54,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setOffscreenPageLimit(1);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

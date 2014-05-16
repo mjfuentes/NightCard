@@ -1,6 +1,5 @@
 package com.mjfuentes.nightcard.Adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +9,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mjfuentes.nightcard.Controller.DrinksController;
-import com.mjfuentes.nightcard.MainActivity;
 import com.mjfuentes.nightcard.Model.BasicFragment;
 import com.mjfuentes.nightcard.Model.Trago;
 import com.mjfuentes.nightcard.R;
-
-import java.util.List;
 
 /**
  * Created by matias on 02/05/14.

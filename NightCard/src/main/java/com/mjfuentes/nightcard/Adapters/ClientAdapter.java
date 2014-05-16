@@ -68,8 +68,8 @@ public class ClientAdapter extends BaseAdapter{
             }
         });
         title.setText(DrinksController.getSeleccionados().get(i).getName());
-//        TextView description = (TextView) layout.findViewById(R.id.description);
-//        description.setText(DrinksController.getSeleccionados().get(i).getDescription());
+        TextView description = (TextView) layout.findViewById(R.id.description);
+        description.setText(DrinksController.getSeleccionados().get(i).getDescription());
         TextView quantity = (TextView) layout.findViewById(R.id.selectedAmount);
         quantity.setText(String.valueOf(DrinksController.getSeleccionados().get(i).getSelected()));
         return layout;
