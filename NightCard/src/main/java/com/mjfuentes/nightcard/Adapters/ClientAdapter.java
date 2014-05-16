@@ -1,6 +1,5 @@
 package com.mjfuentes.nightcard.Adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +13,15 @@ import com.mjfuentes.nightcard.Model.BasicFragment;
 import com.mjfuentes.nightcard.Model.Trago;
 import com.mjfuentes.nightcard.R;
 
-import java.util.List;
-
 /**
- * Created by matias on 02/05/14.
+ * Created by matias on 15/05/14.
  */
-public class BeersAdapter extends BaseAdapter {
+public class ClientAdapter extends BaseAdapter{
 
     private LayoutInflater inflater;
     private ViewGroup container;
     private BasicFragment context;
-    public BeersAdapter(LayoutInflater inflater, ViewGroup container, BasicFragment context) {
+    public ClientAdapter(LayoutInflater inflater, ViewGroup container, BasicFragment context) {
         this.container = container;
         this.inflater = inflater;
         this.context = context;
@@ -32,12 +29,12 @@ public class BeersAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return DrinksController.getCervezas().size();
+        return DrinksController.getSeleccionados().size();
     }
 
     @Override
     public Object getItem(int i) {
-        return DrinksController.getCervezas().get(i);
+        return DrinksController.getSeleccionados().get(i);
     }
 
     @Override
@@ -53,7 +50,7 @@ public class BeersAdapter extends BaseAdapter {
         more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Trago selected = DrinksController.getCervezas().get(i);
+                Trago selected = DrinksController.getSeleccionados().get(i);
                 DrinksController.newDrinkSelected(selected);
                 notifyDataSetChanged();
                 context.updateFragment();
@@ -64,17 +61,17 @@ public class BeersAdapter extends BaseAdapter {
         less.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Trago selected = DrinksController.getCervezas().get(i);
+                Trago selected = DrinksController.getSeleccionados().get(i);
                 DrinksController.lessDrinkSelected(selected);
                 notifyDataSetChanged();
                 context.updateFragment();
             }
         });
-        title.setText(DrinksController.getCervezas().get(i).getName());
-        TextView description = (TextView) layout.findViewById(R.id.description);
-        description.setText(DrinksController.getCervezas().get(i).getDescription());
+        title.setText(DrinksController.getSeleccionados().get(i).getName());
+//        TextView description = (TextView) layout.findViewById(R.id.description);
+//        description.setText(DrinksController.getSeleccionados().get(i).getDescription());
         TextView quantity = (TextView) layout.findViewById(R.id.selectedAmount);
-        quantity.setText(String.valueOf(DrinksController.getCervezas().get(i).getSelected()));
+        quantity.setText(String.valueOf(DrinksController.getSeleccionados().get(i).getSelected()));
         return layout;
     }
 }

@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textSize="30dp" />
+        android:textSize="20dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -23,17 +23,21 @@
         android:layout_below="@+id/title"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textSize="20dp" />
+        android:textSize="15dp"
+        android:layout_marginBottom="10dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="+"
         android:id="@+id/buttonMore"
-        android:layout_alignBottom="@+id/description"
+        android:layout_alignBottom="@+id/buttonLess"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="30dp" />
+        android:layout_marginRight="30dp"
+        android:textSize="25dp"
+        android:layout_marginLeft="15dp"
+        android:layout_alignTop="@+id/buttonLess" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -44,14 +48,20 @@
         android:layout_toLeftOf="@+id/buttonMore"
         android:text="0"
         android:textSize="20dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:layout_alignTop="@+id/buttonMore"
+        android:layout_marginTop="5dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="-"
         android:id="@+id/buttonLess"
-        android:layout_alignBottom="@+id/buttonMore"
-        android:layout_toLeftOf="@+id/selectedAmount" />
+        android:layout_alignBottom="@+id/description"
+        android:layout_toLeftOf="@+id/selectedAmount"
+        android:textSize="25dp"
+        android:layout_alignTop="@+id/title"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="15dp" />
 
 </RelativeLayout>

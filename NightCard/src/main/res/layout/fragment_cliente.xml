@@ -3,49 +3,74 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$90.00"
+        android:id="@+id/saldoCliente"
+        android:textSize="20dp"
+        android:layout_alignBottom="@+id/saldoClienteText"
+        android:layout_toRightOf="@+id/saldoClienteText" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$30.00"
+        android:id="@+id/gastoCliente"
+        android:textSize="20dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/gastoClienteText"
+        android:layout_alignTop="@+id/gastoClienteText"
+        android:layout_alignBottom="@+id/gastoClienteText" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$60.00"
+        android:id="@+id/finalCliente"
+        android:textSize="20dp"
+        android:layout_alignBottom="@+id/finalClienteText"
+        android:layout_toRightOf="@+id/finalClienteText" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Saldo total:  "
+        android:id="@+id/saldoClienteText"
+        android:layout_above="@+id/gastoClienteText"
+        android:layout_alignLeft="@+id/gastoClienteText"
+        android:layout_alignStart="@+id/gastoClienteText"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Gasto actual:  "
+        android:id="@+id/gastoClienteText"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Saldo final:  "
+        android:id="@+id/finalClienteText"
+        android:layout_below="@+id/gastoClienteText"
+        android:layout_toLeftOf="@+id/saldoCliente"
+        android:layout_marginTop="10dp" />
+
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/shoppingCart"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
+        android:id="@+id/selectedItems"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/gastoCliente"
+        android:layout_marginLeft="20dp"
         android:choiceMode="none"
-        android:layout_toRightOf="@+id/finalCliente" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Saldo:   $90.00"
-        android:id="@+id/saldoCliente"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="110dp"
-        android:layout_marginLeft="30dp"
-        android:textSize="20dp"
-        android:layout_marginRight="30dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Gasto actual:   $30.00"
-        android:id="@+id/gastoCliente"
-        android:layout_below="@+id/saldoCliente"
-        android:layout_marginTop="20dp"
-        android:textSize="20dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Saldo actualizado:   $60.00"
-        android:id="@+id/finalCliente"
-        android:textSize="20dp"
-        android:layout_below="@+id/gastoCliente"
-        android:layout_alignLeft="@+id/gastoCliente"
-        android:layout_alignStart="@+id/gastoCliente"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="30dp" />
+        android:layout_alignParentTop="true" />
 </RelativeLayout>

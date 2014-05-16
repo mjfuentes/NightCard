@@ -11,10 +11,11 @@ public class Trago {
     private String description;
     private int selected;
 
-    public Trago(int price,String name, int stock){
+    public Trago(int price,String name, int stock, String description){
         this.setPrice(price);
         this.setName(name);
         this.setStock(stock);
+        this.setDescription(description);
         this.setSelected(0);
     }
 

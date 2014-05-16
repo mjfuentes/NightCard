@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.mjfuentes.nightcard.Controller.DrinksController;
 import com.mjfuentes.nightcard.MainActivity;
+import com.mjfuentes.nightcard.Model.BasicFragment;
 import com.mjfuentes.nightcard.Model.Trago;
 import com.mjfuentes.nightcard.R;
 
@@ -23,9 +24,9 @@ public class DrinksAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
     private ViewGroup container;
-    private Context context;
+    private BasicFragment context;
 
-    public DrinksAdapter(LayoutInflater inflater, ViewGroup container, Context context) {
+    public DrinksAdapter(LayoutInflater inflater, ViewGroup container, BasicFragment context) {
         this.container = container;
         this.inflater = inflater;
         this.context = context;
@@ -56,8 +57,8 @@ public class DrinksAdapter extends BaseAdapter {
             public void onClick(View view) {
                 Trago selected = DrinksController.getTragos().get(i);
                 DrinksController.newDrinkSelected(selected);
-                ((MainActivity) context).updateFragments();
                 notifyDataSetChanged();
+                context.updateFragment();
             }
         });
         Button less = (Button) layout.findViewById(R.id.buttonLess);
@@ -67,6 +68,7 @@ public class DrinksAdapter extends BaseAdapter {
                 Trago selected = DrinksController.getTragos().get(i);
                 DrinksController.lessDrinkSelected(selected);
                 notifyDataSetChanged();
+                context.updateFragment();
             }
         });
         title.setText(DrinksController.getTragos().get(i).getName());

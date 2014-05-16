@@ -59,19 +59,31 @@ public class DrinksController {
 
     public static void newDrinkSelected(Trago trago){
         trago.setSelected(trago.getSelected() + 1);
+        totalAmount += trago.getPrice();
         if (!getSeleccionados().contains(trago)){
             DrinksController.getSeleccionados().add(trago);
         }
-        totalAmount += trago.getPrice();
     }
 
     public static void lessDrinkSelected(Trago trago){
         if (trago.getSelected()>0){
             trago.setSelected(trago.getSelected()-1);
-            if (trago.getStock() == 0){
+            totalAmount -= trago.getPrice();
+            if (trago.getSelected() == 0){
                 getSeleccionados().remove(trago);
             }
         }
-        totalAmount -= trago.getPrice();
+
+    }
+
+    public static void fillDrinks(){
+        DrinksController.getCervezas().add(new Trago(25, "Heineken", 10,"Heineken Heineken Heineken Heineken"));
+        DrinksController.getCervezas().add(new Trago(30, "Stela Artois", 10,"Stela Artois Stela Artois Stela Artois Stela Artois"));
+        DrinksController.getCervezas().add(new Trago(25, "Budweiser", 10, "Budweiser Budweiser Budweiser Budweiser"));
+        DrinksController.getCervezas().add(new Trago(20, "Quilmes", 10, "Quilmes Quilmes Quilmes Quilmes"));
+        DrinksController.getTragos().add(new Trago(20, "Fernet", 10, "30% Fernet Branca, 70% Coca Cola"));
+        DrinksController.getTragos().add(new Trago(15, "Tequila", 10,"Shot de tequila, Patron"));
+        DrinksController.getTragos().add(new Trago(25, "Vodka con Speed", 10,"Vodka con energizante, Speed"));
+        DrinksController.getTragos().add(new Trago(25, "Whiscola", 10,"Whisky con Coca Cola"));
     }
 }

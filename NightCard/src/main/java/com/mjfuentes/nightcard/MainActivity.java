@@ -19,8 +19,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mjfuentes.nightcard.Adapters.BeersAdapter;
+import com.mjfuentes.nightcard.Adapters.ClientAdapter;
 import com.mjfuentes.nightcard.Adapters.DrinksAdapter;
 import com.mjfuentes.nightcard.Controller.DrinksController;
+import com.mjfuentes.nightcard.Model.BasicFragment;
 import com.mjfuentes.nightcard.Model.Trago;
 
 
@@ -40,24 +42,36 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
-
+    BasicFragment[] fragments = new BasicFragment[3];
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.fillDrinks();
+        DrinksController.fillDrinks();
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setOffscreenPageLimit(0);
-        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
             @Override
             public void onPageSelected(int position) {
+                BasicFragment fragment = fragments[position];
+                if (fragment != null) {
+                    fragment.updateFragment();
+                }
                 actionBar.setSelectedNavigationItem(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
             }
         });
 
@@ -69,21 +83,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         }
     }
 
-    private void fillDrinks(){
-        DrinksController.getCervezas().add(new Trago(25, "Heineken", 10));
-        DrinksController.getCervezas().add(new Trago(30, "Stela Artois", 10));
-        DrinksController.getCervezas().add(new Trago(25, "Budweiser", 10));
-        DrinksController.getCervezas().add(new Trago(20, "Quilmes", 10));
-        DrinksController.getTragos().add(new Trago(20, "Fernet", 10));
-        DrinksController.getTragos().add(new Trago(15, "Tequila", 10));
-        DrinksController.getTragos().add(new Trago(25, "Vodka con Speed", 10));
-        DrinksController.getTragos().add(new Trago(25, "Whiscola", 10));
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -124,18 +126,20 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return ClienteFragment.newInstance();
+                    fragments[0] = ClienteFragment.newInstance();
+                    return fragments[0];
                 case 1:
-                    return CervezasFragment.newInstance();
+                    fragments[1] = CervezasFragment.newInstance();
+                    return fragments[1];
                 case 2:
-                    return TragosFragment.newInstance();
+                    fragments[2] = TragosFragment.newInstance();
+                    return fragments[2];
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
             return 3;
         }
 
@@ -154,15 +158,14 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         }
     }
 
-    public static class ClienteFragment extends Fragment {
+    public static class ClienteFragment extends BasicFragment {
         private TextView saldoCliente;
         private TextView gastoCliente;
         private TextView finalCliente;
-
+        private ClientAdapter adapter;
         public static ClienteFragment newInstance() {
             ClienteFragment fragment = new ClienteFragment();
             Bundle args = new Bundle();
-            //args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
             return fragment;
         }
@@ -174,25 +177,35 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_cliente, container, false);
+            adapter = new ClientAdapter(inflater,container,this);
             saldoCliente = (TextView) rootView.findViewById(R.id.saldoCliente);
             gastoCliente = (TextView) rootView.findViewById(R.id.gastoCliente);
             finalCliente = (TextView) rootView.findViewById(R.id.finalCliente);
+            ListView list = (ListView) rootView.findViewById(R.id.selectedItems);
+            list.setAdapter(adapter);
+            this.refreshData();
             return rootView;
         }
 
         @Override
         public void onResume() {
             super.onResume();
+        }
+
+        public void refreshData(){
             saldoCliente.setText(String.valueOf(DrinksController.getUserAmount()));
             gastoCliente.setText(String.valueOf(DrinksController.getTotalAmount()));
             finalCliente.setText(String.valueOf(DrinksController.getUserAmount() - DrinksController.getTotalAmount()));
         }
 
-
+        @Override
+        public void updateFragment() {
+            refreshData();
+            adapter.notifyDataSetChanged();
+        }
     }
 
-
-    public static class CervezasFragment extends Fragment {
+    public static class CervezasFragment extends BasicFragment {
         private TextView saldo;
         private BeersAdapter adapter;
         public static CervezasFragment newInstance() {
@@ -210,21 +223,30 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_alcohol, container, false);
             saldo = (TextView) rootView.findViewById(R.id.saldoCliente);
-            adapter = new BeersAdapter(inflater,container,this.getActivity());
+            adapter = new BeersAdapter(inflater,container,this);
             ListView list = (ListView) rootView.findViewById(R.id.drinks);
             list.setAdapter(adapter);
+            this.refreshData();
             return rootView;
+        }
+
+        public void refreshData(){
+            saldo.setText("Saldo: " + String.valueOf(DrinksController.getUserAmount() - DrinksController.getTotalAmount()));
         }
 
         @Override
         public void onResume() {
             super.onResume();
+        }
+
+        @Override
+        public void updateFragment() {
             adapter.notifyDataSetChanged();
-            saldo.setText("Saldo: " + String.valueOf(DrinksController.getUserAmount() - DrinksController.getTotalAmount()));
+            this.refreshData();
         }
     }
 
-    public static class TragosFragment extends Fragment {
+    public static class TragosFragment extends BasicFragment {
         private DrinksAdapter adapter;
         private TextView saldo;
         public static TragosFragment newInstance() {
@@ -243,18 +265,26 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
             View rootView = inflater.inflate(R.layout.fragment_alcohol, container, false);
             saldo = (TextView) rootView.findViewById(R.id.saldoCliente);
             saldo.setText("Saldo: " + String.valueOf(DrinksController.getUserAmount() - DrinksController.getTotalAmount()));
-            adapter = new DrinksAdapter(inflater,container,this.getActivity());
+            adapter = new DrinksAdapter(inflater,container,this);
             ListView list = (ListView) rootView.findViewById(R.id.drinks);
             list.setAdapter(adapter);
+            this.refreshData();
             return rootView;
         }
 
         @Override
         public void onResume() {
             super.onResume();
-            adapter.notifyDataSetChanged();
+        }
+
+        public void refreshData(){
             saldo.setText("Saldo: " + String.valueOf(DrinksController.getUserAmount() - DrinksController.getTotalAmount()));
         }
 
+        @Override
+        public void updateFragment() {
+            adapter.notifyDataSetChanged();
+            this.refreshData();
+        }
     }
 }
